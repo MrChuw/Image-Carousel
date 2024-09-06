@@ -1,0 +1,19 @@
+
+services:
+  Image_server:
+    image: python:3.12
+    working_dir: /app
+    ports:
+      - 5000:5000
+    command: >
+      /bin/bash -c "pip install -q -r requirements.txt && python main.py"
+    volumes:
+      - .:/app
+    networks:
+      nginxmanager_default:
+          ipv4_address: 172.24.0.249
+    restart: unless-stopped
+
+networks:
+  nginxmanager_default:
+    external: true
