@@ -34,13 +34,16 @@ app = FastAPI(lifespan=startup_event)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+@app.get("/favicon.ico")
+async def get_favicon():
+    return app.url_path_for('static', path='favicon.gif')
+
 
 @app.post("/upload")
 async def add_urls(request: Request, data: URLListSchema, api_key: str = Depends(api_key_required)):
     urls = data.urls
     if not isinstance(urls, list) or not all(isinstance(url, str) for url in urls):
         raise HTTPException(status_code=400, detail="URLs must be a list of strings")
-
     uuid_obj = uuid.uuid4()
     url = uuid_obj.hex[:16]
     await save_url_list(urls, url)
@@ -49,8 +52,6 @@ async def add_urls(request: Request, data: URLListSchema, api_key: str = Depends
 
 @app.get("/{post_id}", response_class=HTMLResponse)
 async def get_urls(request: Request, post_id: str):
-    if post_id == "favicon.ico":
-        return app.url_path_for('static', path='favicon.gif')
     url_list = await URLList.get(url_list=post_id).prefetch_related("urls")
     if not url_list:
         raise HTTPException(status_code=404, detail="URL does not exist.")

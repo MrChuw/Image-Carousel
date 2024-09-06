@@ -1,0 +1,144 @@
+* { box-sizing: border-box; }
+
+:root {
+ 
+--color-primary-100:  #ff4500;
+--color-primary-200:  #ff6028;
+--color-primary-300:  #ff7743;
+--color-primary-400:  #ff8c5d;
+--color-primary-500:  #ffa077;
+--color-primary-600:  #ffb491;
+
+--color-surface-100:  #151524;
+--color-surface-200:  #2a2a39;
+--color-surface-300:  #41414e;
+--color-surface-400:  #5a5965;
+--color-surface-500:  #73727d;
+--color-surface-600:  #8d8d96;
+
+--color-surface-mixed-100:  #6f2c21;
+--color-surface-mixed-200:  #804236;
+--color-surface-mixed-300:  #91584c;
+--color-surface-mixed-400:  #a26f63;
+--color-surface-mixed-500:  #b2867b;
+--color-surface-mixed-600:  #c29d94;
+
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color:  var(--color-surface-300);
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel {
+  background: var(--color-surface-100);
+  flex: 1;
+  height: 100vh;
+}
+
+
+@media (max-width: 768px) {
+  .carousel {
+    height: calc(100dvh - env(safe-area-inset-top));
+  }
+}
+
+.carousel .carousel-main {
+  height:  80vh;
+  width: 100vw;
+}
+
+.carousel-main .carousel-cell {
+  width: 100vw;
+  height:  80vh;
+  margin: 10px;
+  /* center images in cells with flexbox */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel.is-fullscreen .carousel-cell {
+  height: 100%;
+}
+
+.carousel-cell-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.carousel.is-fullscreen .carousel-cell-image {
+  max-width: 100%;
+}
+
+/* Top Arrows */
+.carousel.carousel-main.flickity-enabled.is-draggable .flickity-button.flickity-prev-next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color:  var(--color-primary-200);
+  background-color: var(--color-surface-200);
+}
+
+.carousel.carousel-main.flickity-enabled.is-draggable .flickity-button.flickity-prev-next-button.next {
+  right: 5px;
+}
+
+.carousel.carousel-main.flickity-enabled.is-draggable .flickity-button.flickity-prev-next-button.previous {
+  left: 5px;
+}
+
+/* Bottom Arrows */
+.carousel.carousel-nav.flickity-enabled.is-draggable .flickity-button.flickity-prev-next-button {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  color:  var(--color-primary-200);
+  background-color: var(--color-surface-200);
+}
+
+.carousel.carousel-nav.flickity-enabled.is-draggable .flickity-button.flickity-prev-next-button.next {
+  right: 5px;
+}
+
+.carousel.carousel-nav.flickity-enabled.is-draggable .flickity-button.flickity-prev-next-button.previous {
+  left: 5px;
+}
+
+/* Navigation */
+.carousel-nav {
+  height: 20vh;
+}
+
+.carousel-nav .carousel-cell {
+  width: 100px;
+  height: 10vh;
+  margin-right: 10px;
+  background: var(--color-surface-mixed-100);
+  border-radius: 5px;
+  object-fit: contain;
+}
+
+.carousel-nav .carousel-cell:before {
+  font-size: 50px;
+  line-height: 80px;
+}
+
+.carousel-nav .carousel-cell.is-nav-selected {
+  background: var(--color-primary-100);
+
+}
+
+
+
