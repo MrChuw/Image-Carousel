@@ -9,11 +9,5 @@ services:
       /bin/bash -c "pip install -q -r requirements.txt && python main.py"
     volumes:
       - .:/app
-    networks:
-      nginxmanager_default:
-          ipv4_address: 172.24.0.249
     restart: unless-stopped
 
-networks:
-  nginxmanager_default:
-    external: true
