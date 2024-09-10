@@ -1,28 +1,35 @@
+import logging
 import uuid
+from pathlib import Path
+from textwrap import dedent
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 from tortoise.contrib.fastapi import register_tortoise
 
-from pydantic import BaseModel
-
+from custom_logging import CustomizeLogger
 from schemas import URLList
 from utils import api_key_required, save_url_list
-from textwrap import dedent
 
 
 class URLListSchema(BaseModel):
     urls: list[str]
 
 
+logger = logging.getLogger(__name__)
+config_path = Path(__file__).with_name("logging_config.json")
 app = FastAPI()
-register_tortoise(app, db_url="sqlite://db.sqlite3", modules={"models": ["schemas"]}, generate_schemas=True,
-                  add_exception_handlers=True)
+app.logger = CustomizeLogger.make_logger(config_path)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+register_tortoise(app, db_url="sqlite://db.sqlite3", modules={"models": ["schemas"]}, generate_schemas=True,
+                  add_exception_handlers=True
+                  )
 
 
 @app.get("/favicon.ico")
@@ -35,7 +42,8 @@ async def get_robot():
     return dedent("""
     User-agent: *
     Disallow: /
-    """).lstrip("\n")
+    """
+                  ).lstrip("\n")
 
 
 @app.post("/upload")
