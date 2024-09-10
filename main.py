@@ -1,5 +1,4 @@
 import uuid
-from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -24,6 +23,7 @@ register_tortoise(app, db_url="sqlite://db.sqlite3", modules={"models": ["schema
                   add_exception_handlers=True)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 @app.get("/favicon.ico")
 async def get_favicon():
