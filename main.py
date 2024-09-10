@@ -6,9 +6,9 @@ from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from tortoise.contrib.fastapi import register_tortoise
 
 from pydantic import BaseModel
-from tortoise import Tortoise
 
 from schemas import URLList
 from utils import api_key_required, save_url_list
@@ -19,19 +19,9 @@ class URLListSchema(BaseModel):
     urls: list[str]
 
 
-async def init():
-    await Tortoise.init(db_url='sqlite://db.sqlite3', modules={'models': ['schemas']})
-    await Tortoise.generate_schemas()
-
-
-@asynccontextmanager
-async def startup_event(app: FastAPI):  # NOQA
-    await init()
-    yield
-    await Tortoise.close_connections()
-
-
-app = FastAPI(lifespan=startup_event)
+app = FastAPI()
+register_tortoise(app, db_url="sqlite://db.sqlite3", modules={"models": ["schemas"]}, generate_schemas=True,
+                  add_exception_handlers=True)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
