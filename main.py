@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -12,6 +12,7 @@ from tortoise import Tortoise
 
 from schemas import URLList
 from utils import api_key_required, save_url_list
+from textwrap import dedent
 
 
 class URLListSchema(BaseModel):
@@ -39,6 +40,14 @@ async def get_favicon():
     return app.url_path_for('static', path='favicon.gif')
 
 
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def get_robot():
+    return dedent("""
+    User-agent: *
+    Disallow: /
+    """).lstrip("\n")
+
+
 @app.post("/upload")
 async def add_urls(request: Request, data: URLListSchema, api_key: str = Depends(api_key_required)):
     urls = data.urls
@@ -52,7 +61,7 @@ async def add_urls(request: Request, data: URLListSchema, api_key: str = Depends
 
 @app.get("/{post_id}", response_class=HTMLResponse)
 async def get_urls(request: Request, post_id: str):
-    url_list = await URLList.get(url_list=post_id).prefetch_related("urls")
+    url_list = await URLList.get_or_none(url_list=post_id).prefetch_related("urls")
     if not url_list:
         raise HTTPException(status_code=404, detail="URL does not exist.")
     urls = await url_list.urls
