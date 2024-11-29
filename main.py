@@ -39,11 +39,7 @@ async def get_favicon():
 
 @app.get("/robots.txt", response_class=PlainTextResponse)
 async def get_robot():
-    return dedent("""
-    User-agent: *
-    Disallow: /
-    """
-                  ).lstrip("\n")
+    return """User-agent: *\nDisallow: /"""
 
 
 @app.post("/upload")
