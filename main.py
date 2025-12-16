@@ -14,6 +14,10 @@ from tortoise.contrib.fastapi import register_tortoise
 from custom_logging import CustomizeLogger
 from schemas import URLList
 from utils import api_key_required, save_url_list
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 class URLListSchema(BaseModel):
@@ -26,6 +30,8 @@ app = FastAPI()
 app.logger = CustomizeLogger.make_logger(config_path)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+templates.env.globals["analytics_url"] = os.getenv("ANALYTICS_URL")
+templates.env.globals["analytics_uuid"] = os.getenv("ANALYTICS_UUID")
 
 register_tortoise(app, db_url="sqlite://db.sqlite3", modules={"models": ["schemas"]}, generate_schemas=True,
                   add_exception_handlers=True

@@ -8,6 +8,9 @@
         <link rel="icon" href="{{ url_for('static', path='favicon.gif') }}" type="image/gif">
         <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
         <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+        {% if analytics_url and analytics_uuid %}
+          <script defer src="{{ analytics_url }}" data-website-id="{{ analytics_uuid }}"></script>
+        {% endif %}
     </head>
     
 
