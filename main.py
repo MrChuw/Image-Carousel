@@ -33,9 +33,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates.env.globals["analytics_url"] = os.getenv("ANALYTICS_URL")
 templates.env.globals["analytics_uuid"] = os.getenv("ANALYTICS_UUID")
 
-register_tortoise(app, db_url="sqlite://db.sqlite3", modules={"models": ["schemas"]}, generate_schemas=True,
-                  add_exception_handlers=True
-                  )
+register_tortoise(
+    app,
+    db_url="sqlite://data/db.sqlite3",
+    modules={"models": ["schemas"]}, 
+    generate_schemas=True,
+    add_exception_handlers=True
+)
 
 
 @app.get("/favicon.ico")
