@@ -2,12 +2,22 @@
 services:
   Image_server:
     image: python:3.12
+    container_name: Image-Carousel
     working_dir: /app
-    ports:
-      - 5000:5000
+    # ports:
+    #   - ${PORT:-5000}:5000
+    environment:
+      - ANALYTICS_URL=${ANALYTICS_URL:-}
+      - ANALYTICS_UUID=${ANALYTICS_UUID:-}
     command: >
       /bin/bash -c "pip install -q -r requirements.txt && python main.py"
     volumes:
       - .:/app
     restart: unless-stopped
+    networks:
+      - caddy
+
+networks:
+  caddy:
+    external: true
 
