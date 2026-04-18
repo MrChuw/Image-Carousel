@@ -6,7 +6,7 @@ fastapi==0.113.0
 h11==0.14.0
 idna==3.8
 iso8601==1.1.0
-Jinja2==3.1.4
+Jinja2==3.1.6
 MarkupSafe==2.1.5
 pydantic==2.9.0
 pydantic_core==2.23.2
