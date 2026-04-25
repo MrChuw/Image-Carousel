@@ -7,7 +7,7 @@ from schemas import APIKey
 
 
 async def init():
-    await Tortoise.init(db_url='sqlite://db.sqlite3', modules={'models': ['schemas']}
+    await Tortoise.init(db_url='sqlite://data/db.sqlite3', modules={'models': ['schemas']}
                         )
     await Tortoise.generate_schemas()
 

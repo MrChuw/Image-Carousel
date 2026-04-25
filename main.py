@@ -70,9 +70,11 @@ async def get_urls(request: Request, post_id: str):
         raise HTTPException(status_code=404, detail="URL does not exist.")
     urls = await url_list.urls
     urls_list = [url.url for url in urls]
-    return templates.TemplateResponse("urls_template.html",
-                                      {"request": request, "urls": urls_list, "urls_count": len(urls)}
-                                      )
+    return templates.TemplateResponse(
+        request=request, 
+        name="urls_template.html", 
+        context={"urls": urls_list, "urls_count": len(urls)}
+    )
 
 
 if __name__ == "__main__":

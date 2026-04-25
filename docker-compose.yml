@@ -1,11 +1,14 @@
 
 services:
-  Image_server:
-    image: python:3.12
+  image_carousel:
+    # image: python:3.12
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: Image-Carousel
     working_dir: /app
-    # ports:
-    #   - ${PORT:-5000}:5000
+    ports:
+      - ${PORT:-5000}:5000
     environment:
       - ANALYTICS_URL=${ANALYTICS_URL:-}
       - ANALYTICS_UUID=${ANALYTICS_UUID:-}
