@@ -3,7 +3,7 @@ name: Docker Build and Publish (By Tag)
 on:
   push:
     tags:
-      - 'v*'
+      - '**/v*'
 
 env:
   REGISTRY: ghcr.io
