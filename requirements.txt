@@ -23,7 +23,7 @@ MarkupSafe==2.1.5
 mdurl==0.1.2
 pydantic==2.9.0
 pydantic-extra-types==2.11.1
-pydantic-settings==2.13.1
+pydantic-settings==2.14.2
 pydantic_core==2.23.2
 Pygments==2.20.0
 pypika-tortoise==0.1.6
